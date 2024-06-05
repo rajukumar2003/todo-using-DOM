@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <h1>Create Your Own Todo</h1>
+    
+    <form id="todoForm">
+    <input type="text" id="todo" placeholder=" Todo...."><br>
+    <input type="submit" value="Add Todo">
+    </form>
+
+    <b><div id="todoList">
+    </div></b>
+
+    <script>
+
+        const todoInput = document.getElementById('todo')
+        const todoList = document.getElementById('todoList');
+        const todoForm = document.getElementById('todoForm');
+
+        todoForm.onsubmit = (e)=>{
+            e.preventDefault();
+            const todoValue = todoInput.value;
+
+            const newTodo = document.createElement('h2');
+            newTodo.innerText = todoValue;
+
+            // Creates a dropdown menu
+            const dropdown = document.createElement('select');
+
+            const defaultOption = document.createElement('option')
+            defaultOption.value = 'defaultOption'
+            defaultOption.innerText = 'More...'
+            const option1 = document.createElement('option')
+            option1.value = 'Edit Todo'
+            option1.innerText = 'Edit Todo'
+            const option2 = document.createElement('option')
+            option2.value = 'Mark as completed'
+            option2.innerText = 'Mark as completed'
+            const option3 = document.createElement('option')
+            option3.value = 'Delete Todo'
+            option3.innerText = 'Delete Todo'
+            
+            
+            dropdown.appendChild(defaultOption)
+            dropdown.appendChild(option1)
+            dropdown.appendChild(option2)
+            dropdown.appendChild(option3)
+            var n = 1;
+
+            dropdown.onchange = ()=>{
+                // console.log(`Selected option for ${todoValue} is `, dropdown.value)
+                if(dropdown.value == 'Delete Todo'){
+                    todoList.removeChild(newTodo)
+                    todoList.removeChild(dropdown)
+                }
+                else if(dropdown.value == 'Edit Todo'){
+                    const text = prompt('New Todo...')
+                    newTodo.innerHTML = text;
+                }
+                else if(dropdown.value == 'Mark as completed'){
+                    newTodo.classList.toggle('completed')
+                    if(n == 1){
+                        option2.innerHTML = 'Mark as NOT Completed';
+                    }
+                    else{
+                        option2.innerHTML = 'Mark as completed'
+                    }
+                    n = n * -1;
+                    // console.log(n)
+                }
+                dropdown.value = 'defaultOption'
+            };
+
+            todoList.appendChild(newTodo)
+            todoList.appendChild(dropdown)
+
+            todoInput.value = ''
+        };
+
+    </script>
+
+</body>
+</html>
